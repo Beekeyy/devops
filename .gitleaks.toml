@@ -1,0 +1,12 @@
+title = "Lab gitleaks config"
+
+[[rules]]
+id = "demo-secret"
+description = "Demo UUID-shaped secret for the lab"
+# RE2 regex (Go). Matches DEMO_SECRET=demo_<uuid-v4-like>
+regex = '''(?i)DEMO_SECRET\s*=\s*demo_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'''
+keywords = ["DEMO_SECRET"]
+
+# Global allowlist – exclude README from scans so we can document secrets for teaching.
+[allowlist]
+paths = ["README.md"]
