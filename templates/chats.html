@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Чаты{% endblock %}
+{% block content %}
+  <div class="row space-between">
+    <h2>Мои чаты</h2>
+    <form method="post" action="/chats/create" class="row gap">
+      <input type="text" name="name" placeholder="Название чата" required />
+      <button class="btn primary" type="submit">Создать</button>
+    </form>
+  </div>
+
+  {% if chats|length == 0 %}
+    <p class="muted">Чатов пока нет. Создайте первый чат выше.</p>
+  {% else %}
+    <ul class="list">
+      {% for c in chats %}
+        <li class="card">
+          <div class="row space-between center">
+            <div>
+              <strong>{{ c.name }}</strong>
+              <div class="muted">ID: {{ c.id }}</div>
+              {% if c.owner_id == user_id %}
+                <div class="muted">Вы — владелец</div>
+              {% endif %}
+            </div>
+            <div class="row gap">
+              <a class="btn primary" href="/chats/{{ c.id }}">Открыть</a>
+              {% if c.owner_id == user_id %}
+                <form method="post" action="/chats/{{ c.id }}/delete" onsubmit="return confirm('Удалить чат «{{ c.name }}»?');">
+                  <button class="btn" type="submit">Удалить</button>
+                </form>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

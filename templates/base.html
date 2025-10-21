@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}Лабораторная{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <a href="/">Главная</a>
+  <a href="/chats">Чаты</a>
+  <div style="margin-left:auto"></div>
+  {% if user_email %}
+    <span class="muted">Вы вошли как {{ user_email }}</span>
+    <a class="btn" href="/logout">Выйти</a>
+  {% else %}
+    <a class="btn" href="/login">Войти</a>
+    <a class="btn" href="/signup">Регистрация</a>
+  {% endif %}
+</header>
+<main>
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

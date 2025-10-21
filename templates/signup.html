@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+  <h2>Регистрация</h2>
+  <form method="post" action="/signup" class="form">
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Пароль" required />
+    <button class="btn primary" type="submit">Создать аккаунт</button>
+  </form>
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+{% endblock %}

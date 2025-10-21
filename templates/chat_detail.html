@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Чат: {{ chat.name }}{% endblock %}
+{% block content %}
+  <div class="row space-between center">
+    <h2>Чат: {{ chat.name }}</h2>
+    {% if is_owner %}
+      <form method="post" action="/chats/{{ chat.id }}/delete" onsubmit="return confirm('Удалить чат «{{ chat.name }}»?');">
+        <button class="btn" type="submit">Удалить чат</button>
+      </form>
+    {% endif %}
+  </div>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  <div class="card">
+    <h3>Участники</h3>
+    {% if participants|length == 0 %}
+      <p class="muted">Пока нет участников.</p>
+    {% else %}
+      <ul class="list">
+        {% for u in participants %}
+          <li>
+            {{ u.email }}
+            {% if u.id == chat.owner_id %}
+              <span class="muted">— владелец</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="post" action="/chats/{{ chat.id }}/invite" class="row gap">
+      <input type="email" name="email" placeholder="email участника" required />
+      <button class="btn" type="submit">Пригласить</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Сообщения</h3>
+    {% if messages|length == 0 %}
+      <p class="muted">Пока сообщений нет — напишите первое.</p>
+    {% else %}
+      <ul class="list">
+        {% for m in messages %}
+          <li class="msg">
+            <div><strong>{{ m.author.email }}</strong> <span class="muted">— {{ m.created_at }}</span></div>
+            <div>{{ m.content }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <form method="post" action="/chats/{{ chat.id }}/message" class="send-form">
+    <textarea name="content" rows="3" placeholder="Ваше сообщение..." required></textarea>
+    <div class="row right">
+      <button class="btn primary" type="submit">Отправить</button>
+    </div>
+  </form>
+{% endblock %}

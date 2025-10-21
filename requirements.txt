@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+SQLAlchemy>=2.0
+aiosqlite
+python-jose[cryptography]
+passlib[bcrypt]==1.7.4
+jinja2
+python-multipart
+itsdangerous
